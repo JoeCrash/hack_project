@@ -22,7 +22,7 @@
 ##now install hhvm
 #sudo apt install hhvm
 
-##download composer (to install hhvm dependencies)
+## download composer (to install hhvm dependencies)
 EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
@@ -34,18 +34,18 @@ then
     exit 1
 fi
 
-##install composer
+## install composer
 php composer-setup.php --quiet
 RESULT=$?
 rm composer-setup.php
 php composer.phar update
 >&2 echo 'Composer downloaded & updated'
 
-##make .hack project dirs
+## make .hack project dirs
 mkdir bin src tests
 >&2 echo '/bin, /src & /tests created'
 
-##download .hhconfig
+## download .hhconfig
 curl https://raw.githubusercontent.com/hhvm/hhast/master/.hhconfig > .hhconfig
 >&2 echo '.hhconfig downloaded'
 
@@ -64,11 +64,11 @@ EOF
 
 >&2 echo 'hh_autoload.json created'
 
-##install hhvm modules
+## install hhvm modules
 composer require hhvm/hsl hhvm/hhvm-autoload
 composer require --dev hhvm/hhast hhvm/hacktest facebook/fbexpect
 >&2 echo 'Hack common dependencies added'
 
-##test the installation
+## test the installation
 hh_client restart && hh_client
 exit $RESULT
